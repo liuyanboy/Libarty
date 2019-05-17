@@ -57,4 +57,9 @@ public class GoodsController {
             return "redirect:/Goods/toUpdatePage?id=" + id;
         }
     }
+
+    @RequestMapping("/hotel")
+    public String hah(){
+        return "listhah";
+    }
 }
