@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.shop.dao.ShopMapper">
+    <select id="getShopList" resultMap="ShopList">
+        SELECT s.`sortName`,d.* FROM goods_dateil d INNER JOIN goods_sort s ON d.`sortid` = s.`id`
+        <if test="sortid != 0 and sortid != null">
+            where d.`sortid` = #{sortid}
+        </if>
+        ORDER BY d.`id` LIMIT #{CurrentNo},#{PageSize}
+    </select>
+
+    <select id="getShopListCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM goods_dateil d
+        <if test="sortid != 0 and sortid != null">
+            where d.`sortid` = #{sortid}
+        </if>
+    </select>
+
+    <resultMap id="ShopList" type="Goods_detail">
+        <id property="id" column="id" />
+        <result property="sortid" column="sortid" />
+        <result property="name" column="name" />
+        <result property="address" column="address" />
+        <result property="price" column="price" />
+        <result property="createDate" column="createDate" />
+        <result property="remaining" column="remaining" />
+        <result property="sortName" column="sortName" />
+    </resultMap>
+
+
+    <update id="updateGoods">
+        update `goods_dateil` set `remaining` = #{remaining} where `id` = #{id}
+    </update>
+
+    <select id="getGoods_dateil" resultType="Goods_detail">
+         SELECT * FROM goods_dateil d INNER JOIN goods_sort s ON d.`sortid` = s.`id`  where d.`id` = #{id}
+    </select>
+
+    <select id="getGoods_sortList" resultType="Goods_sort">
+        SELECT * FROM goods_sort
+    </select>
+</mapper>
